@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"io"
 	"os"
 	"task-cli/task"
 )
@@ -28,14 +27,12 @@ func Init() (list, error) {
 	// если ошибка, не связанна с существованием файла
 	if err == nil {
 		// если файл существует, загружаем все данные в мапу
-		file, err := os.Open(FILE_NAME)
+		data, err := os.ReadFile(FILE_NAME)
 		if err != nil {
 			return list{}, err
 		}
-		defer file.Close()
 
-		err = json.NewDecoder(file).Decode(&newTasks)
-		if err != nil && err != io.EOF {
+		if err := json.Unmarshal(data, &newTasks); err != nil {
 			return list{}, err
 		}
 
