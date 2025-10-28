@@ -32,7 +32,7 @@ func Runloop() {
 
 func welcome() {
 	fmt.Println("Welcome to task-cli!")
-	fmt.Println("Type '--help' for a list of commands.")
+	fmt.Println("Type '-help' for a list of commands.")
 }
 
 func add(v string) {
