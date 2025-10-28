@@ -26,7 +26,7 @@ func Init(desctiption string) Task {
 	}
 }
 
-// setter, который устанавливает статус Задачи как "done"
+// метод, который устанавливает статус Задачи как "done"
 func (t *Task) MarkItDone() {
 	t.Status = "done"
 	t.UpdatedAt = time.Now().Format(time.RFC3339)

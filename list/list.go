@@ -98,7 +98,7 @@ func (l *list) DoneTasks() {
 }
 
 // метод, который выводит список невыполненных задач
-func (l *list) UnfulfilledTask() {
+func (l *list) TodoTasks() {
 	for _, task := range l.Tasks {
 		if task.Status == "in-progress" {
 			fmt.Printf("ID: %s, Description: %s, Status: %s\n", task.ID, task.Description, task.Status)
