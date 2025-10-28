@@ -1,11 +1,11 @@
 package list
 
 import (
+	"app/task"
 	"encoding/json"
 	"errors"
 	"fmt"
 	"os"
-	"task-cli/task"
 )
 
 // json файл с сохраненными задачами
@@ -31,14 +31,11 @@ func Init() (list, error) {
 		if err != nil {
 			return list{}, err
 		}
-
 		if err := json.Unmarshal(data, &newTasks); err != nil {
 			return list{}, err
 		}
-
 	} else if !errors.Is(err, os.ErrNotExist) {
 		return list{}, err
-
 	}
 	return list{
 		Tasks: newTasks,
@@ -53,18 +50,16 @@ func (l *list) Add(t task.Task) {
 
 // метод для удаления задачи из списка
 func (l *list) Delete(ID string) error {
-
-	if isTask(l.Tasks, ID) {
+	if l.isTask(ID) {
 		delete(l.Tasks, ID)
+		fmt.Println("Task deleted successfully!")
 		return nil
-	} else {
-		return fmt.Errorf("task with ID %s not found", ID)
 	}
+	return fmt.Errorf("task with ID %s not found", ID)
 }
 
 // метод для сохранения списка задач в файл
 func (l *list) Save() error {
-
 	bytes, err := json.MarshalIndent(l.Tasks, "", "  ")
 	if err != nil {
 		return err
@@ -74,9 +69,28 @@ func (l *list) Save() error {
 	return nil
 }
 
+// метод для отмечания задачи как выполнена
+func (l *list) Done(ID string) error {
+	if l.isTask(ID) {
+		task := l.Tasks[ID]
+		task.MarkItDone()
+		l.Tasks[ID] = task
+		fmt.Println("Task marked as done!")
+		return nil
+	}
+	return fmt.Errorf("task with ID %s not found", ID)
+}
+
+// метод, который выводит весь список задач
+func (l *list) ShowTasks() {
+	for _, task := range l.Tasks {
+		fmt.Printf("ID: %s, Description: %s, Status: %s\n", task.ID, task.Description, task.Status)
+	}
+}
+
 // локальный метод для проверки наличия задачи в списке
-func isTask(t tasks, ID string) bool {
-	if _, ok := t[ID]; ok {
+func (l *list) isTask(ID string) bool {
+	if _, ok := l.Tasks[ID]; ok {
 		return true
 	}
 	return false
