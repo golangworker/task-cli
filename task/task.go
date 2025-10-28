@@ -20,7 +20,7 @@ func Init(desctiption string) Task {
 	return Task{
 		ID:          strconv.Itoa(rand.Int()),
 		Description: desctiption,
-		Status:      "created",
+		Status:      "in-progress",
 		CreatedAt:   time.Now().Format(time.RFC3339),
 		UpdatedAt:   time.Now().Format(time.RFC3339),
 	}
@@ -29,11 +29,5 @@ func Init(desctiption string) Task {
 // setter, который устанавливает статус Задачи как "done"
 func (t *Task) MarkItDone() {
 	t.Status = "done"
-	t.UpdatedAt = time.Now().Format(time.RFC3339)
-}
-
-// setter, который устанавливает статус Задачи как "in-progress"
-func (t *Task) MarkItInTheProcess() {
-	t.Status = "in-progress"
 	t.UpdatedAt = time.Now().Format(time.RFC3339)
 }

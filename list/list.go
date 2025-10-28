@@ -82,9 +82,27 @@ func (l *list) Done(ID string) error {
 }
 
 // метод, который выводит весь список задач
-func (l *list) ShowTasks() {
+func (l *list) AllTasks() {
 	for _, task := range l.Tasks {
-		fmt.Printf("ID: %s, Description: %s, Status: %s\n", task.ID, task.Description, task.Status)
+		fmt.Printf("ID: %s\n Description: %s, Status: %s\n Created: %s\n Updated: %s\n", task.ID, task.Description, task.Status, task.CreatedAt, task.UpdatedAt)
+	}
+}
+
+// метод, который выводит список выполненных задач
+func (l *list) DoneTasks() {
+	for _, task := range l.Tasks {
+		if task.Status == "done" {
+			fmt.Printf("ID: %s, Description: %s, Status: %s\n", task.ID, task.Description, task.Status)
+		}
+	}
+}
+
+// метод, который выводит список невыполненных задач
+func (l *list) UnfulfilledTask() {
+	for _, task := range l.Tasks {
+		if task.Status == "in-progress" {
+			fmt.Printf("ID: %s, Description: %s, Status: %s\n", task.ID, task.Description, task.Status)
+		}
 	}
 }
 
