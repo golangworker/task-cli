@@ -17,8 +17,8 @@ func Runloop() {
 		add(*Add)
 	case *Delete != "":
 		delete(*Delete)
-	case *Done:
-		mark()
+	case *Mark != "":
+		mark(*Mark)
 	case *AllTasks:
 		allTasks()
 	case *DoneTasks:
@@ -54,8 +54,13 @@ func delete(v string) {
 	list.Delete(v)
 }
 
-func mark() {
-
+func mark(id string) {
+	list, err := list.Init()
+	if err != nil {
+		panic(err)
+	}
+	defer list.Save()
+	list.Done(id)
 }
 
 func allTasks() {
